@@ -1,0 +1,13 @@
+{
+  "name": "gym-mock-api",
+  "version": "1.0.0",
+  "description": "Mock membership API for testing HCL Universal Orchestrator auto-renewal workflows",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "regenerate": "node generate_attendance.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
