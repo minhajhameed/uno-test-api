@@ -12,6 +12,9 @@ const DATA_DIR = path.join(__dirname, "data");
 const membersPath = path.join(DATA_DIR, "members.json");
 const attendancePath = path.join(DATA_DIR, "attendance.json");
 
+// Running on a VPS now (not Vercel's read-only serverless fs), so renewals
+// write straight back to members.json and actually persist across restarts.
+// Keep data/members.seed.json around if you ever want to reset to defaults.
 function loadMembers() {
   return JSON.parse(fs.readFileSync(membersPath, "utf8"));
 }

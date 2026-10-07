@@ -66,6 +66,18 @@ curl "http://gym.saasberry.in/api/members/eligible-for-renewal?days=7"
 }
 ```
 
+### Note on Vercel deployment
+
+The project directory is read-only once deployed (`EROFS` on write). The
+server now writes renewals to `/tmp/members.runtime.json` instead of the
+bundled `data/members.json`, and reads from that file first if it exists.
+
+This means: renewals persist for as long as the same serverless instance
+stays warm, then reset to the clean seed data on the next cold start (which
+happens often, could be minutes). Fine for testing the workflow logic --
+not meant to survive as real state. For anything that needs to actually
+persist, swap in Vercel KV, Postgres (Neon/Supabase), or similar.
+
 ### Mock payment failure (to test UnO's error handling)
 
 A member renews successfully unless their `memberId`'s last digit is
