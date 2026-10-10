@@ -59,6 +59,42 @@ function handleListMembers(req, res) {
   sendJson(res, 200, loadMembers());
 }
 
+function handleRenewals(req, res) {
+  sendJson(res, 200, {
+    customer_id: "cust_987654",
+    company_name: "Acme Corp",
+    contact_info: {
+      primary_contact: "Jane Doe",
+      email: "jane.doe@acme.com",
+      phone: "+1-555-0198"
+    },
+    subscription: {
+      plan_name: "Enterprise Tier",
+      status: "active",
+      auto_renew: true,
+      billing_cycle: "annual"
+    },
+    renewal_details: {
+      current_period_start: "2025-09-01T00:00:00Z",
+      current_period_end: "2026-08-31T23:59:59Z",
+      renewal_date: "2026-09-01T00:00:00Z",
+      notice_date: "2026-08-01T00:00:00Z"
+    },
+    financials: {
+      currency: "USD",
+      contract_value: 12000.00,
+      discount_applied: 500.00,
+      tax: 920.00,
+      total_due: 12420.00
+    },
+    payment_method: {
+      type: "credit_card",
+      last_4: "4242",
+      expiry_date: "11/28"
+    }
+  });
+}
+
 function handleExpiring(req, res, query) {
   const days = parseInt(query.get("days") || "7", 10);
   const members = loadMembers();
@@ -166,6 +202,9 @@ const server = http.createServer(async (req, res) => {
     }
     if (req.method === "GET" && url.pathname === "/api/members") {
       return handleListMembers(req, res);
+    }
+    if (req.method === "GET" && url.pathname === "/api/v1/renewals") {
+      return handleRenewals(req, res);
     }
     if (req.method === "GET" && url.pathname === "/api/members/expiring") {
       return handleExpiring(req, res, url.searchParams);

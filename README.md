@@ -41,6 +41,7 @@ Regenerate `data/attendance.json` any time with `node generate_attendance.js`
 | Method | Path                                        | Purpose                                                        |
 |--------|----------------------------------------------|------------------------------------------------------------------|
 | GET    | `/api/health`                                 | Liveness check                                                   |
+| GET    | `/api/v1/renewals`                            | Returns the sample Acme Corp renewal record                      |
 | GET    | `/api/members`                                | Full member list (debugging)                                     |
 | GET    | `/api/members/expiring?days=7`                | Members whose card expires within N days                         |
 | GET    | `/api/members/:id/usage`                      | Visit count, requirement, and eligibility for one member         |
