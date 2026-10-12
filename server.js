@@ -95,6 +95,61 @@ function handleRenewals(req, res) {
   });
 }
 
+function handleRenewalsV2(req, res) {
+  sendJson(res, 200, {
+    customer_id: "cust_1",
+    company_name: "Standard CCB Term renewal — eComm channel",
+    external_id: "UAT-P0-A01",
+    opportunityid: "eefae20d-ef15-535d-8d86-66de44a22aec",
+    accountid: "2bd13874-10ce-595e-bac7-f2bc467211cb",
+    statecode: 0,
+    csm_manual_override: false,
+    renewal_type: "Existing",
+    roa_flag: false,
+    contact_email_valid: true,
+    churnzero_health_missing: false,
+    new_products: "Domino Term",
+    new_segment: "Digital Sales",
+    new_csmassignment: "uat-csm@hcl.com",
+    new_prior_renewal_outcome: "Won",
+    contact_info: {
+      primary_contact: "UAT Test Contact",
+      email: "uno.customer@yahoo.com",
+      phone: "+1-555-0100"
+    },
+    subscription: {
+      plan_name: "Enterprise Tier",
+      status: "active",
+      auto_renew: true,
+      billing_cycle: "annual",
+      part_code: "CCB-TERM-100",
+      license_type: "CCB Term"
+    },
+    renewal_details: {
+      current_period_start: "2026-01-10T04:19:30.975036+00:00",
+      current_period_end: "2027-01-10T04:19:29.975036+00:00",
+      renewal_date: "2027-01-10T04:19:30.975036+00:00",
+      notice_date: "2026-12-11T04:19:30.975036+00:00",
+      days_to_renewal: 90
+    },
+    financials: {
+      currency: "USD",
+      arr_usd: 2400,
+      discount_applied: 0,
+      tax: 192,
+      total_due: 2592
+    },
+    payment_method: {
+      type: "credit_card",
+      last_4: "4000",
+      expiry_date: "11/28"
+    },
+    new_a01_scanned_at: "2026-10-10T10:48:32.508421+00:00",
+    new_run_id: "5a62a9f3-605b-4ca9-9629-88b179000420",
+    new_days_to_renewal: 90
+  });
+}
+
 function handleExpiring(req, res, query) {
   const days = parseInt(query.get("days") || "7", 10);
   const members = loadMembers();
@@ -205,6 +260,9 @@ const server = http.createServer(async (req, res) => {
     }
     if (req.method === "GET" && url.pathname === "/api/v1/renewals") {
       return handleRenewals(req, res);
+    }
+    if (req.method === "GET" && url.pathname === "/api/v2/renewals") {
+      return handleRenewalsV2(req, res);
     }
     if (req.method === "GET" && url.pathname === "/api/members/expiring") {
       return handleExpiring(req, res, url.searchParams);
